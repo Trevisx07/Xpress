@@ -1,0 +1,5 @@
+---
+interface Props { word: string; class?: string }
+const { word, class: className } = Astro.props;
+---
+<span class:list={['ghost-word', className]} aria-hidden="true">{word}</span>

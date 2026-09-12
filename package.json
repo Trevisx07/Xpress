@@ -1,0 +1,39 @@
+{
+  "name": "xpress-towing",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "preview:cf": "npm run build && wrangler pages dev dist",
+    "check:functions": "tsc -p functions/tsconfig.json --noEmit",
+    "gen:icons": "node scripts/gen-icons.mjs",
+    "gen:og": "node scripts/gen-og.mjs",
+    "audit": "npm run build && node scripts/audit.mjs",
+    "prep:images": "node scripts/prep-images.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^5.18.2",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260905.1",
+    "axe-core": "^4.13.0",
+    "fontkit": "^2.0.4",
+    "lighthouse": "^13.4.1",
+    "opentype.js": "^2.0.0",
+    "playwright-core": "^1.63.0",
+    "serve": "^14.2.6",
+    "wrangler": "^4.129.0"
+  }
+}

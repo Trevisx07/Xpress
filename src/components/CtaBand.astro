@@ -1,0 +1,21 @@
+---
+import { site } from '@/config/site';
+import Phone from '@/components/icons/Phone.astro';
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+interface Props { heading?: string; secondary?: { label: string; href: string } }
+const { heading = 'Need a tow right now?', secondary } = Astro.props;
+---
+<section class="cta-stripes relative overflow-hidden border-t border-ink/10 bg-bone text-ink">
+  <div class="container-site relative flex flex-col gap-8 py-14 lg:flex-row lg:items-center lg:justify-between lg:py-20">
+    <div>
+      <Eyebrow tone="light">Dispatch is awake</Eyebrow>
+      <h2 class="mt-3 text-ink">{heading}</h2>
+      {secondary && <a href={secondary.href} class="btn btn-ink btn-lg mt-6 w-full sm:w-auto">{secondary.label}<ArrowRight class="size-6" /></a>}
+    </div>
+    <a href={`tel:${site.phone}`} class="group inline-flex items-center gap-4 self-start rounded-btn bg-red px-6 py-4 text-white hover:bg-red-deep lg:self-auto">
+      <Phone class="size-8 shrink-0 lg:size-12" />
+      <span class="font-display text-[clamp(2.5rem,5vw,5rem)] font-bold leading-none tracking-tight tabular">{site.phoneDisplay}</span>
+    </a>
+  </div>
+</section>

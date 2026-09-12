@@ -1,0 +1,16 @@
+---
+interface Props { variant: 'slant' | 'notch' | 'hazard'; direction?: 'left' | 'right'; from: string; to: string; line?: boolean }
+const { variant, direction = 'right', from, to, line = false } = Astro.props;
+---
+{variant === 'slant' && (
+  <div class:list={['divider divider-slant', from]} data-dir={direction} data-draw={line ? '' : undefined} aria-hidden="true">
+    <div class:list={['divider-fill', to]}></div>
+    {line && (
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
+        <line x1={direction === 'right' ? 0 : 0} y1={direction === 'right' ? 100 : 0} x2="100" y2={direction === 'right' ? 0 : 100} pathLength="1" />
+      </svg>
+    )}
+  </div>
+)}
+{variant === 'notch' && <div class:list={['divider divider-notch', to]} aria-hidden="true"></div>}
+{variant === 'hazard' && <div class:list={['divider divider-hazard', to]} aria-hidden="true"></div>}

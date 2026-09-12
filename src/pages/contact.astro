@@ -1,0 +1,199 @@
+---
+import Base from '@/layouts/Base.astro';
+import { site } from '@/config/site';
+import Phone from '@/components/icons/Phone.astro';
+import MapPin from '@/components/icons/MapPin.astro';
+import Clock from '@/components/icons/Clock.astro';
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import Mail from '@/components/icons/Mail.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import SectionDivider from '@/components/SectionDivider.astro';
+import Card from '@/components/Card.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+
+const tel = `tel:${site.phone}`;
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
+const mapsLink = 'https://www.google.com/maps/search/?api=1&query=Mobile,+AL';
+
+const types = [
+  { v: 'tow', l: 'I need a tow now' },
+  { v: 'quote', l: 'Quote or question' },
+  { v: 'commercial', l: 'Commercial account' },
+];
+const businessTypes = ['Body shop', 'Repair shop', 'Dealership', 'Apartment or property', 'Fleet', 'Other'];
+const ready = ['Your location or the nearest cross street', 'Vehicle year, make, and model', 'Whether it runs and whether it rolls', 'Where you want it taken'];
+
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }];
+const schema = [{ '@type': 'ContactPage', '@id': `${site.url}/contact#page`, url: `${site.url}/contact`, name: 'Contact Xpress Towing & Recovery', about: { '@id': `${site.url}/#business` } }];
+---
+<Base
+  title="Contact Xpress Towing & Recovery | Mobile, AL"
+  description="Call Xpress Towing & Recovery in Mobile, Alabama any hour, or send a quick quote request and we will call you back. Commercial account inquiries welcome."
+  canonicalPath="/contact"
+  ogImage="/og/contact.jpg"
+  schema={schema}
+  breadcrumbs={crumbs}
+>
+  <section class="dark-tex bg-asphalt" transition:name="hero-contact">
+    <div class="container-site grid min-h-[45vh] items-center gap-12 py-14 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:py-20">
+      <div class="min-w-0" data-hero-in>
+        <Breadcrumbs items={crumbs} />
+        <Eyebrow class="mt-6">Contact</Eyebrow>
+        <h1 class="h1-inner mt-3 max-w-[18ch]">Call us, or send the details and we will call you</h1>
+        <p class="mt-6 max-w-[52ch] text-lg text-bone-dim lg:text-xl">Calling is fastest for a tow right now. The form works for quotes, accounts, and questions.</p>
+        <div class="mt-8 flex flex-col items-start gap-4">
+          <a href={tel} class="btn btn-red btn-lg w-full sm:w-auto"><Phone class="size-6" />Call {site.phoneDisplay}</a>
+          <a href={`mailto:${site.email}`} class="inline-flex min-h-11 items-center break-all text-bone-dim underline hover:text-bone">{site.email}</a>
+        </div>
+      </div>
+      <Card variant="dark" class="p-8 pt-12 lg:p-10 lg:pt-14">
+        <h2 class="text-h3">Have this ready when you call</h2>
+        <ul class="mt-5 space-y-3 text-bone">
+          {ready.map((r) => <li class="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-2.5 before:bg-red before:content-['']">{r}</li>)}
+        </ul>
+        <p class="mt-6 border-t border-steel-light pt-4 text-bone-dim">Most calls take under two minutes.</p>
+      </Card>
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="right" from="bg-asphalt" to="bg-bone" />
+  <section class="bg-bone text-ink">
+    <div class="container-site section-pad grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-16">
+      <aside class="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
+        <h2 class="text-ink" data-reveal>Reach dispatch</h2>
+        <dl class="mt-8 space-y-6">
+          <div>
+            <dt class="field-label flex items-center gap-3"><Phone class="size-6 shrink-0 text-red-deep" />Phone</dt>
+            <dd class="pl-9"><a href={tel} class="font-display text-3xl font-bold uppercase tracking-tight text-ink hover:text-red-deep">{site.phoneDisplay}</a></dd>
+          </div>
+          <div>
+            <dt class="field-label flex items-center gap-3"><Mail class="size-6 shrink-0 text-red-deep" />Email</dt>
+            <dd class="pl-9 break-all"><a href={`mailto:${site.email}`} class="text-ink underline hover:text-red-deep">{site.email}</a></dd>
+          </div>
+          <div>
+            <dt class="field-label flex items-center gap-3"><MapPin class="size-6 shrink-0 text-red-deep" />Service area</dt>
+            <dd class="pl-9 text-ink-soft">{site.address.city}, {site.address.region} and within {site.serviceRadiusMiles} miles. {site.serviceAreas.join(', ')}.</dd>
+          </div>
+          <div>
+            <dt class="field-label flex items-center gap-3"><Clock class="size-6 shrink-0 text-red-deep" />Hours</dt>
+            <dd class="pl-9 text-ink-soft">{site.hours.open24x7 ? 'Open 24 hours, every day' : 'Call for hours'}</dd>
+          </div>
+        </dl>
+      </aside>
+
+      <div>
+        <h2 class="text-ink" data-reveal>Request a call back</h2>
+        <form id="contact-form" method="post" action="/api/contact" class="mt-8 space-y-6" novalidate>
+          <div id="form-alert" role="alert" class="hidden rounded-btn border border-red/40 bg-red/5 px-4 py-3 text-red-deep" tabindex="-1"></div>
+
+          <fieldset>
+            <legend class="field-label">What do you need?</legend>
+            <div class="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              {types.map((t) => (
+                <label class="inline-flex min-h-11 cursor-pointer items-center gap-2 text-ink">
+                  <input type="radio" name="type" value={t.v} checked={t.v === 'quote'} class="size-5 accent-red-deep" />
+                  {t.l}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label for="f-name" class="field-label">Name <span class="text-red-deep" aria-hidden="true">*</span></label>
+              <input id="f-name" name="name" type="text" required minlength="2" maxlength="80" autocomplete="name" aria-describedby="e-name" class="field mt-2" />
+              <p id="e-name" class="mt-1 hidden text-sm text-red-deep"></p>
+            </div>
+            <div>
+              <label for="f-phone" class="field-label">Phone <span class="text-red-deep" aria-hidden="true">*</span></label>
+              <input id="f-phone" name="phone" type="tel" required inputmode="tel" autocomplete="tel" aria-describedby="e-phone" class="field mt-2" />
+              <p id="e-phone" class="mt-1 hidden text-sm text-red-deep"></p>
+            </div>
+          </div>
+
+          <div>
+            <label for="f-email" class="field-label">Email <span class="font-body font-normal normal-case tracking-normal text-ink-soft">(optional)</span></label>
+            <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" aria-describedby="e-email" class="field mt-2" />
+            <p id="e-email" class="mt-1 hidden text-sm text-red-deep"></p>
+          </div>
+
+          <div data-commercial>
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label for="f-business" class="field-label">Business name</label>
+                <input id="f-business" name="business" type="text" maxlength="120" autocomplete="organization" aria-describedby="e-business" class="field mt-2" />
+                <p id="e-business" class="mt-1 hidden text-sm text-red-deep"></p>
+              </div>
+              <div>
+                <label for="f-businessType" class="field-label">Business type</label>
+                <select id="f-businessType" name="businessType" class="field mt-2">
+                  {businessTypes.map((b) => <option value={b}>{b}</option>)}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="f-vehicle" class="field-label">Vehicle</label>
+            <input id="f-vehicle" name="vehicle" type="text" maxlength="120" placeholder="Year, make, model" autocomplete="off" class="field mt-2" />
+          </div>
+
+          <div>
+            <label for="f-location" class="field-label">Location or pickup address</label>
+            <input id="f-location" name="location" type="text" maxlength="200" placeholder="Street address, cross street, or mile marker" autocomplete="street-address" class="field mt-2" />
+          </div>
+
+          <div>
+            <label for="f-message" class="field-label">Message</label>
+            <textarea id="f-message" name="message" rows="4" maxlength="2000" aria-describedby="e-message" class="field mt-2"></textarea>
+            <p id="e-message" class="mt-1 hidden text-sm text-red-deep"></p>
+          </div>
+
+          <div class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+            <label for="f-website">Website</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="ts" id="f-ts" value="" />
+
+          {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="light"></div>}
+
+          <div>
+            <button type="submit" id="f-submit" class="btn btn-red btn-lg w-full sm:w-auto">Send request<ArrowRight class="size-6" /></button>
+            <p class="mt-4 text-ink-soft">Need a tow right now? Calling is faster: <a href={tel} class="font-display text-lg font-semibold tracking-wide text-ink underline hover:text-red-deep">{site.phoneDisplay}</a></p>
+          </div>
+        </form>
+
+        <div id="form-success" hidden class="rounded-card border border-ink/10 bg-bone p-8">
+          <h3 class="text-ink">Got it. We will call you shortly.</h3>
+          <p class="mt-3 text-ink-soft">If it is urgent, do not wait on us. Call and a dispatcher picks up.</p>
+          <a href={tel} class="btn btn-red btn-lg mt-6 w-full sm:w-auto"><Phone class="size-6" />Call {site.phoneDisplay}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="left" from="bg-bone" to="bg-steel" line />
+  <section class="dark-tex bg-steel">
+    <div class="container-site section-pad">
+      <h2 data-reveal>Based in Mobile, serving the Gulf Coast</h2>
+      <p class="mt-4 max-w-[52ch] text-bone-dim">Dispatch runs out of {site.address.streetAddress}, {site.address.city}, {site.address.region} {site.address.postalCode}. Trucks stage across the county, from Saraland to Theodore and over the bay.</p>
+      <div id="map-facade" class="mt-10 grid min-h-[400px] place-items-center rounded-card border border-steel-light bg-asphalt p-8 text-center">
+        <div>
+          <MapPin class="mx-auto size-10 text-red-tint" />
+          <p class="mt-4 font-display text-2xl font-semibold uppercase tracking-wide text-bone">{site.address.streetAddress}<br />{site.address.city}, {site.address.region} {site.address.postalCode}</p>
+          <p class="mt-1 text-concrete">Map loads from Google only when you ask for it.</p>
+          <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            <button type="button" id="map-load" class="btn btn-red" hidden>Load map</button>
+            <a id="map-link" href={mapsLink} rel="noopener" target="_blank" class="btn btn-outline">Open in Google Maps<ArrowRight class="size-5" /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+
+  {turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+  <script>import '@/scripts/contact-form';</script>
+</Base>

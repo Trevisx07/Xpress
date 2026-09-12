@@ -1,0 +1,29 @@
+---
+import Base from '@/layouts/Base.astro';
+import { site } from '@/config/site';
+import Phone from '@/components/icons/Phone.astro';
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import GhostWord from '@/components/GhostWord.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+---
+<Base title="Page Not Found | Xpress Towing & Recovery" description="This page has been towed. Head back to the Xpress Towing & Recovery homepage, browse our towing services in Mobile, Alabama, or call dispatch any hour." canonicalPath="/404">
+  <section class="dark-tex section-pad relative overflow-hidden" transition:name="hero-404">
+    <GhostWord word="Towed" class="ghost-word-huge text-bone" />
+    <div class="container-site relative grid gap-10 lg:grid-cols-[3fr_2fr] lg:items-end">
+      <div data-hero-in>
+        <Eyebrow>Error 404</Eyebrow>
+        <h1 class="h1-inner mt-3">That page got towed.</h1>
+        <p class="mt-6 text-xl text-bone-dim">The link is broken or the page moved. Your vehicle we can find fast.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={`tel:${site.phone}`} class="btn btn-red"><Phone class="size-5" />Call {site.phoneDisplay}</a>
+          <a href="/" class="btn btn-outline">Back to home<ArrowRight class="size-5" /></a>
+        </div>
+      </div>
+      <ul class="space-y-2 text-bone-dim lg:justify-self-end">
+        <li><a href="/services" class="inline-block py-1 hover:text-red-tint">Services</a></li>
+        <li><a href="/commercial-towing" class="inline-block py-1 hover:text-red-tint">Commercial Towing</a></li>
+        <li><a href="/contact" class="inline-block py-1 hover:text-red-tint">Contact</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,279 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import { site, services } from '@/config/site';
+import Phone from '@/components/icons/Phone.astro';
+import Clock from '@/components/icons/Clock.astro';
+import MapPin from '@/components/icons/MapPin.astro';
+import Shield from '@/components/icons/Shield.astro';
+import Truck from '@/components/icons/Truck.astro';
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import Key from '@/components/icons/Key.astro';
+import Battery from '@/components/icons/Battery.astro';
+import FaqItem from '@/components/FaqItem.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import ServiceAreaMap from '@/components/ServiceAreaMap.astro';
+import heroImg from '@/assets/hero-flatbed.jpg';
+import lightDutyImg from '@/assets/truck-light-duty.jpg';
+import mediumDutyImg from '@/assets/truck-medium-duty.jpg';
+import flatbedImg from '@/assets/truck-flatbed.jpg';
+import Card from '@/components/Card.astro';
+import SectionDivider from '@/components/SectionDivider.astro';
+import Ticker from '@/components/Ticker.astro';
+import GhostWord from '@/components/GhostWord.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+
+const tel = `tel:${site.phone}`;
+const href = (slug: string) => `/services#${slug}`;
+const bySlug = (slug: string) => services.find((s) => s.slug === slug)!;
+
+const featured = [
+  { ...bySlug('light-duty-towing'), img: lightDutyImg, alt: 'Xpress rollback with deck tilted, winching a silver Toyota sedan aboard on a residential street', body: 'Cars, SUVs, and pickups moved by wheel lift or flatbed, whichever protects your vehicle.' },
+  { ...bySlug('medium-duty-towing'), img: mediumDutyImg, alt: 'Rear three-quarter view of the Xpress flatbed with an empty deck on an interstate shoulder', body: 'Box trucks, work vans, shuttle buses, and small RVs up to 26,000 lb.' },
+  { ...bySlug('flatbed-towing'), img: flatbedImg, alt: 'Gray Mazda SUV strapped to the Xpress flatbed deck with yellow ratchet straps', body: 'Zero wheels on the road for AWD, lowered, luxury, and non-running vehicles.' },
+];
+
+const compact = [
+  { ...bySlug('accident-recovery'), icon: Shield, line: 'Winch outs, scene cleanup, and transport to the body shop you choose.' },
+  { ...bySlug('roadside-assistance'), icon: MapPin, line: 'Fuel, tire changes, and short pull outs, fixed at the curb.' },
+  { ...bySlug('lockouts'), icon: Key, line: 'Keys locked in the car on Airport Blvd? Damage free entry in minutes.' },
+  { ...bySlug('jump-starts'), icon: Battery, line: 'Dead battery in a downtown deck. We come to you, day or night.' },
+];
+
+const steps = [
+  { n: '01', h: 'You tell us where you are', p: 'Give us a mile marker on I-10 or I-65, a spot on the Bayway, a business on Airport Blvd, or a street address. Tell us what you drive and what happened.' },
+  { n: '02', h: 'We give you a real ETA and a real price', p: 'You hear the arrival window and the full price before the truck rolls. No hidden fees, no surprise fuel charge, no renegotiation at the hook.' },
+  { n: '03', h: 'We load it carefully and take it where you need', p: 'Soft straps, wheel nets, and photos before and after loading. Home, your mechanic, a body shop, or a dealership, across town or across the bay.' },
+];
+
+const stats = [
+  { v: '24/7', l: 'Always open. Nights, weekends, holidays.' },
+  { v: `${site.serviceRadiusMiles} mi`, l: 'Service radius from downtown Mobile', count: String(site.serviceRadiusMiles), suffix: ' mi', decimals: '0' },
+];
+
+const trust = [
+  { icon: Shield, h: 'Licensed and insured', p: 'Alabama licensed, with commercial auto, on-hook, and garage keepers coverage. Certificates on request.' },
+  { icon: Phone, h: 'Owner operated', p: 'The person who answers the phone drives the truck and signs the invoice. No call center.' },
+  { icon: Truck, h: 'Photo documentation', p: 'Every vehicle is photographed at pickup and drop off. You get the photos with the invoice.' },
+  { icon: Clock, h: 'Straight pricing', p: 'Hook up, miles, and any extras quoted before dispatch. The number on the phone is the number on the bill.' },
+];
+
+const faqs = [
+  { q: 'How fast can you get to me?', a: 'Most calls inside the Mobile city limits see a truck in 30 to 45 minutes. Saraland, Theodore, Semmes, and the Eastern Shore run a little longer. You get an honest ETA on the phone, not a guess.' },
+  { q: 'How much does a tow cost in Mobile?', a: 'It depends on distance, vehicle type, and whether it needs a flatbed or a winch out. We quote the full price before dispatch, and that is the price you pay.' },
+  { q: 'Do you tow after an accident?', a: 'Yes. We handle accident recovery, winch outs, and debris cleanup, and we work alongside Mobile Police and ALEA on scene. We can take the vehicle to your body shop, your insurer’s yard, or your home.' },
+  { q: 'Can you tow my car to my own mechanic?', a: 'Absolutely. Give us the shop name and address and we take it there. If the shop is closed, we can coordinate an after hours drop with them.' },
+  { q: 'Do you take cards?', a: 'Yes. Visa, Mastercard, American Express, Discover, and cash. Commercial accounts can be invoiced monthly.' },
+  { q: 'Do you offer commercial or fleet accounts?', a: 'Yes. Body shops, repair shops, dealerships, apartment complexes, and fleet operators get priority dispatch, monthly invoicing, and photo documentation on every tow. Call and ask for the owner.' },
+];
+
+const schema = [
+  {
+    '@type': 'Service',
+    '@id': `${site.url}/#towing-service`,
+    name: 'Towing Service',
+    serviceType: 'Towing Service',
+    provider: { '@id': `${site.url}/#business` },
+    areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
+    availableChannel: { '@type': 'ServiceChannel', servicePhone: { '@type': 'ContactPoint', telephone: site.phone, contactType: 'dispatch', availableLanguage: 'en' } },
+    hoursAvailable: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' },
+    url: site.url,
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<Base
+  title="24/7 Towing in Mobile, AL | Xpress Towing & Recovery"
+  description="Fast, careful towing and roadside recovery across Mobile, Alabama. Flatbed and wheel lift towing, accident recovery, lockouts and jump starts. Call any hour."
+  canonicalPath="/"
+  schema={schema}
+>
+  <section class="dark-tex hero-grid-lines bg-asphalt" transition:name="hero-home">
+    <div class="hero-grid py-10 lg:py-0">
+      <div class="hero-copy container-site lg:px-0" data-hero-in>
+        <Eyebrow>Mobile, Alabama. Open 24 hours.</Eyebrow>
+        <h1 class="h1-home mt-3 max-w-[13ch]">Stuck on the side of the road? We'll get you moving.</h1>
+        <p class="mt-3 font-display text-lg font-semibold uppercase tracking-wide text-chrome lg:text-xl">{site.tagline}</p>
+        <p class="mt-4 max-w-[50ch] text-base text-bone-dim lg:text-lg">Flatbed and wheel lift towing, accident recovery, and roadside help across Mobile County. Straight pricing and a real person on the phone.</p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <a href={tel} class="btn btn-red btn-hero w-full sm:w-auto"><Phone class="size-6" />Call {site.phoneDisplay}</a>
+          <a href="/contact" class="btn btn-outline-red btn-hero w-full sm:w-auto">Request a quote</a>
+        </div>
+        <ul class="mt-5 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-bone-dim" data-reveal-stagger>
+          <li class="flex items-center gap-1.5"><Clock class="size-4 text-red-tint" />Fast response</li>
+          <li class="flex items-center gap-1.5"><Shield class="size-4 text-red-tint" />Licensed &amp; insured</li>
+          <li class="flex items-center gap-1.5"><Truck class="size-4 text-red-tint" />Flatbed available</li>
+        </ul>
+      </div>
+      <div class="hero-media" data-parallax>
+        <Picture
+          src={heroImg}
+          alt="Xpress Towing white Hino flatbed carrier with empty deck, parked three-quarter front on the lot in Mobile"
+          widths={[640, 1000, 1280, 1800]}
+          sizes="(min-width: 1024px) 45vw, 85vw"
+          formats={['avif', 'webp']}
+          quality={48}
+          loading="eager"
+          fetchpriority="high"
+          pictureAttributes={{ class: 'contents' }}
+        />
+        <div class="absolute bottom-5 left-6 z-10 inline-flex items-center gap-3 rounded-btn border border-steel-light bg-asphalt/90 px-4 py-2 font-display text-base font-semibold uppercase tracking-widest text-bone lg:bottom-8 lg:left-10">
+          <span class="pulse-dot size-2.5 rounded-full bg-red-tint" aria-hidden="true"></span>Open 24 hours
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Ticker />
+  <SectionDivider variant="slant" direction="right" from="bg-steel" to="bg-bone" />
+
+  <section class="relative overflow-hidden bg-bone text-ink">
+    <GhostWord word="Towing" class="text-ink" />
+    <div class="container-site section-pad relative">
+      <div data-reveal>
+        <Eyebrow tone="light">Services</Eyebrow>
+        <h2 class="mt-3 text-ink">Towing and roadside help, done right</h2>
+        <p class="mt-4 text-lg text-ink-soft">Cars, trucks, SUVs, and light commercial vehicles, hauled without a scratch.</p>
+      </div>
+      <div class="mt-12 flex flex-col">
+      <div class="order-2 mt-6 grid gap-6 md:order-1 md:mt-0 md:grid-cols-3" data-reveal-stagger>
+        {featured.map((f) => (
+          <Card as="article" variant="feature" class="flex flex-col">
+            <div class="overflow-hidden border-b border-ink/10"><Picture src={f.img} alt={f.alt} widths={[560, 720, 1000]} sizes="(min-width: 768px) 33vw, 92vw" formats={['avif', 'webp']} quality={55} loading="lazy" class="aspect-[3/2] w-full object-cover" /></div>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 class="text-ink">{f.name}</h3>
+              <p class="mt-3 flex-1 text-ink-soft">{f.body}</p>
+              <a href={href(f.slug)} class="mt-5 inline-flex min-h-11 items-center gap-2 font-display text-lg font-semibold uppercase tracking-wide text-ink hover:text-red-deep">Details<ArrowRight class="size-5" /></a>
+            </div>
+          </Card>
+        ))}
+      </div>
+      <ul class="order-1 grid gap-6 sm:grid-cols-2 md:order-2 md:mt-6 lg:grid-cols-4" data-reveal-stagger>
+        {compact.map((c) => (
+          <Card as="li" variant="dark" class="p-6 pt-12">
+            <a href={href(c.slug)} class="group flex h-full flex-col">
+              <c.icon class="size-7 text-red-tint" />
+              <span class="mt-4 block font-display text-xl font-semibold uppercase tracking-wide text-bone group-hover:text-red-tint">{c.name}</span>
+              <span class="mt-2 block flex-1 text-bone-dim">{c.line}</span>
+              <ArrowRight class="mt-4 size-5 text-concrete group-hover:text-red-tint" />
+            </a>
+          </Card>
+        ))}
+      </ul>
+      </div>
+      <div class="mt-8 flex justify-end">
+        <a href="/services" class="inline-flex min-h-11 items-center gap-2 font-display text-lg font-semibold uppercase tracking-wide text-ink hover:text-red-deep">See all services<ArrowRight class="size-5" /></a>
+      </div>
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="left" from="bg-bone" to="bg-steel" line />
+  <section class="dark-tex bg-steel">
+    <div class="container-site section-pad">
+      <div data-reveal>
+        <Eyebrow>How it works</Eyebrow>
+        <h2 class="mt-3">What happens when you call</h2>
+      </div>
+      <ol class="mt-12 grid gap-6 lg:grid-cols-3" data-reveal-stagger>
+        {steps.map((s) => (
+          <Card as="li" variant="step" class="p-8 pt-10">
+            <span class="step-ghost" aria-hidden="true">{s.n}</span>
+            <span class="font-display text-xl font-semibold text-red-tint tabular" aria-hidden="true">{s.n}</span>
+            <h3 class="relative mt-4">{s.h}</h3>
+            <p class="mt-3 text-bone-dim">{s.p}</p>
+          </Card>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <SectionDivider variant="hazard" from="bg-steel" to="bg-asphalt" />
+  <section class="dark-tex relative overflow-hidden bg-asphalt">
+    <div class="container-site section-pad relative grid gap-12 lg:grid-cols-[7fr_5fr] lg:items-center lg:gap-16">
+      <div>
+        <Eyebrow data-reveal>For shops, dealers, and fleets</Eyebrow>
+        <h2 class="mt-3">One number your shop can count on</h2>
+        <p class="mt-6 text-bone-dim">Body shops, repair shops, dealerships, property managers, and fleets across Mobile get priority dispatch, one monthly invoice, and photos on every tow. Your customers see a clean truck and a careful driver.</p>
+        <ul class="mt-8 space-y-3 text-bone" data-reveal-stagger>
+          {['Priority dispatch for account holders', 'Consolidated monthly invoicing', 'Damage free loading with photo records', 'Direct line to the owner'].map((b) => (
+            <li class="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-2.5 before:bg-red before:content-['']">{b}</li>
+          ))}
+        </ul>
+      </div>
+      <Card variant="dark" class="p-8 pt-12 lg:p-10 lg:pt-14" data-reveal>
+        <h3>Set up a commercial account</h3>
+        <p class="mt-4 text-bone-dim">Tell us how many units you run and where they park. Most accounts are live the same day, with net 30 for established shops.</p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="/commercial-towing" class="btn btn-red">Talk to us<ArrowRight class="size-5" /></a>
+          <a href={tel} class="btn btn-outline-red"><Phone class="size-5" />Call {site.phoneDisplay}</a>
+        </div>
+      </Card>
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="right" from="bg-asphalt" to="bg-bone" />
+  <section class="bg-bone text-ink">
+    <div class="container-site section-pad">
+      <div data-reveal>
+        <Eyebrow tone="light">Why Xpress</Eyebrow>
+        <h2 class="mt-3 text-ink">Trusted across Mobile County</h2>
+        <p class="mt-4 text-lg text-ink-soft">One truck, one owner, one price. Here is what that means on the side of the road.</p>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4" data-reveal-stagger>
+        {stats.map((s) => (
+          <Card variant="stat" class="flex flex-col-reverse p-6">
+            <p class="mt-4 text-ink-soft">{s.l}</p>
+            <div>
+              <span class="tabular block font-display text-[4.5rem] font-bold leading-none text-ink" data-count={s.count} data-suffix={s.suffix} data-decimals={s.decimals}>{s.v}</span>
+              <span class="stat-rule mt-4 block" aria-hidden="true"></span>
+            </div>
+          </Card>
+        ))}
+        <Card variant="dark" class="p-8 pt-12 md:col-span-2">
+          <h3>{site.tagline}</h3>
+          <p class="mt-3 text-bone-dim">Soft straps, wheel nets, and a level deck. Your car rides, it does not get pulled. That is the whole business in one sentence.</p>
+        </Card>
+        {trust.map((t) => (
+          <Card variant="feature" class="p-6">
+            <t.icon class="size-7 text-red-deep" />
+            <h3 class="mt-4 text-ink">{t.h}</h3>
+            <p class="mt-2 text-ink-soft">{t.p}</p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <SectionDivider variant="notch" from="bg-bone" to="bg-steel" />
+  <section class="dark-tex relative overflow-hidden bg-steel">
+    <GhostWord word="Mobile" class="text-bone" />
+    <div class="container-site section-pad relative grid gap-12 lg:grid-cols-[7fr_5fr] lg:items-center lg:gap-16">
+      <div data-reveal>
+        <Eyebrow>Service area</Eyebrow>
+        <h2 class="mt-3">Where we tow</h2>
+        <p class="mt-6 text-bone-dim">{site.serviceAreas.slice(0, 6).join(', ')}, {site.serviceAreas.slice(9).join(' and ')}, and across the bay in {site.serviceAreas.slice(6, 9).join(', ')}. Anywhere within {site.serviceRadiusMiles} miles of downtown is regular service.</p>
+        <p class="mt-4 text-bone-dim">Long distance to anywhere in Alabama, Mississippi, or the Florida panhandle on request. Call for a flat quote.</p>
+        <a href="/contact" class="mt-6 inline-flex min-h-11 items-center gap-2 font-display text-lg font-semibold uppercase tracking-wide text-bone hover:text-red-tint">Check your address<ArrowRight class="size-5" /></a>
+      </div>
+      <ServiceAreaMap class="mx-auto w-full max-w-sm lg:max-w-none" />
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="left" from="bg-steel" to="bg-bone" />
+  <section class="bg-bone text-ink">
+    <div class="container-site section-pad grid gap-10 lg:grid-cols-[4fr_8fr]">
+      <div data-reveal>
+        <Eyebrow tone="light">FAQ</Eyebrow>
+        <h2 class="mt-3 text-ink">Common questions</h2>
+      </div>
+      <div data-reveal>
+        {faqs.map((f) => <FaqItem question={f.q}><p>{f.a}</p></FaqItem>)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

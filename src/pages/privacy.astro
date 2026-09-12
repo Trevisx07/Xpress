@@ -1,0 +1,23 @@
+---
+import Base from '@/layouts/Base.astro';
+import { site } from '@/config/site';
+---
+<Base title="Privacy Policy | Xpress Towing & Recovery" description="How Xpress Towing & Recovery LLC handles the phone numbers, names and locations you share when you call or contact us." canonicalPath="/privacy" breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Privacy', path: '/privacy' }]}>
+  <section class="section-pad">
+    <div class="container-site">
+      <h1 class="h1-inner max-w-3xl">Privacy Policy</h1>
+      <div class="mt-8 space-y-6 text-bone-dim">
+        <p>This site belongs to {site.legalName}, Mobile, Alabama. It exists so you can find our number and call us. It does not run ads, sell data, or track you across other sites.</p>
+        <h2 class="text-h3 text-bone pt-4">What we collect</h2>
+        <p>When you call or use the contact form, we get what you give us: your name, phone number, vehicle details, and where you are. We need those to send a truck. We keep them in our dispatch records for as long as Alabama business and insurance rules require.</p>
+        <h2 class="text-h3 text-bone pt-4">What the website itself records</h2>
+        <p>Our hosting provider, Cloudflare, logs standard server data such as IP address, browser type, and pages requested to keep the site running and to block abuse. We do not set tracking cookies. If we ever add analytics, we will say so here first.</p>
+        <h2 class="text-h3 text-bone pt-4">Sharing</h2>
+        <p>We share your details only with the driver handling your job, with your insurer or motor club if they are paying, and with law enforcement when a recovery is done at their request. We never sell them.</p>
+        <h2 class="text-h3 text-bone pt-4">Questions</h2>
+        <p class="break-words">Email <a href={`mailto:${site.email}`} class="break-all text-red-tint underline">{site.email}</a> or call <a href={`tel:${site.phone}`} class="text-red-tint underline">{site.phoneDisplay}</a> and ask for the owner.</p>
+        <p class="text-sm text-concrete">Last updated: September 2026.</p>
+      </div>
+    </div>
+  </section>
+</Base>

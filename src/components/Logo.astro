@@ -1,0 +1,9 @@
+---
+import { Image } from 'astro:assets';
+import logo from '@/assets/logo.png';
+import { site } from '@/config/site';
+interface Props { width?: number; class?: string; loading?: 'lazy' | 'eager' }
+const { width = 180, class: className, loading = 'eager' } = Astro.props;
+const height = Math.round(width * (logo.height / logo.width));
+---
+<Image src={logo} width={width} height={height} densities={[1, 2]} alt={site.name} class={className} loading={loading} fetchpriority={loading === 'eager' ? 'low' : undefined} decoding="async" format="webp" quality={70} />

@@ -1,0 +1,14 @@
+---
+import { site } from '@/config/site';
+const items = [...site.serviceAreas, 'Across the Bay', 'Mobile County'];
+---
+<div class="dark-tex bg-steel border-y border-steel-light py-4">
+  <ul class="sr-only">{items.map((t) => <li>{t}</li>)}</ul>
+  <div class="marquee" aria-hidden="true">
+    {[0, 1].map(() => (
+      <ul class="font-display text-xl font-semibold uppercase tracking-widest text-red-tint">
+        {items.map((t) => <li class="flex items-center gap-8 whitespace-nowrap">{t}<span class="size-2 bg-red"></span></li>)}
+      </ul>
+    ))}
+  </div>
+</div>

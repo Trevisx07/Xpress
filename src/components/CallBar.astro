@@ -1,0 +1,10 @@
+---
+import { site } from '@/config/site';
+import Phone from '@/components/icons/Phone.astro';
+---
+<aside aria-label="Call now" transition:persist class="callbar fixed inset-x-0 bottom-0 z-40 md:hidden bg-red pb-[env(safe-area-inset-bottom,0px)]">
+  <a href={`tel:${site.phone}`} class="flex h-[var(--callbar-h)] w-full items-center justify-center gap-2 font-display text-xl font-semibold uppercase tracking-wide text-white hover:bg-red-deep">
+    <Phone class="size-6" />
+    Need a tow? Call now
+  </a>
+</aside>

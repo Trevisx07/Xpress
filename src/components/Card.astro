@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> { variant?: 'feature' | 'dark' | 'stat' | 'step'; as?: 'div' | 'article' | 'li' }
+const { variant = 'feature', class: className, as: Tag = 'div', ...rest } = Astro.props;
+---
+<Tag class:list={['card', `card-${variant}`, className]} {...rest}><slot /></Tag>

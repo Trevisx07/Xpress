@@ -1,0 +1,152 @@
+---
+import Base from '@/layouts/Base.astro';
+import { site } from '@/config/site';
+import Phone from '@/components/icons/Phone.astro';
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import Shield from '@/components/icons/Shield.astro';
+import Truck from '@/components/icons/Truck.astro';
+import Key from '@/components/icons/Key.astro';
+import MapPin from '@/components/icons/MapPin.astro';
+import Clock from '@/components/icons/Clock.astro';
+import FaqItem from '@/components/FaqItem.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { Picture } from 'astro:assets';
+import shopImg from '@/assets/commercial-shop.jpg';
+import SectionDivider from '@/components/SectionDivider.astro';
+import Card from '@/components/Card.astro';
+import GhostWord from '@/components/GhostWord.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+
+const tel = `tel:${site.phone}`;
+const signup = '/contact?type=commercial';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Commercial Towing', path: '/commercial-towing' }];
+
+const audiences = [
+  { icon: Shield, h: 'Body shops and collision centers', p: 'A wrecked car that sits at the scene is a job you may never see. We pick up from the roadside, the police impound, or the customer’s driveway and deliver to your bay with photos, so the estimate starts the same day and the intake file is already documented.' },
+  { icon: Key, h: 'Independent repair shops', p: 'Customers call you first when the car will not start. Give them one number to hand off, and the vehicle shows up in your lot with the keys where you asked. No more shuffling a tech out in the shop truck.' },
+  { icon: Truck, h: 'Dealerships and used car lots', p: 'Auction pickups, dealer trades along the Airport Blvd and I-65 corridors, service loaners, and customer vehicles that quit on the way home. Careful loading matters when the car is your inventory.' },
+  { icon: MapPin, h: 'Apartment complexes and property managers', p: 'Abandoned and unauthorized vehicles taking up resident spaces. Private property and non-consent tows are handled by the book under Alabama law and City of Mobile requirements, with proper signage, notice, and records for every removal.' },
+  { icon: Clock, h: 'Fleets and trucking companies', p: 'Light and medium duty coverage for vans, box trucks, and service vehicles. A downed unit near the port or the industrial parks gets a priority response and a straight ETA to your dispatcher.' },
+];
+
+const steps = [
+  { n: '01', h: 'Call or send the form', p: 'Tell us what kind of business you run, how many vehicles you move in a typical month, and where they usually need to go.' },
+  { n: '02', h: 'We agree on rates and a service window', p: 'You get account rates in writing, along with the response window we commit to inside your normal service area.' },
+  { n: '03', h: 'You dispatch by phone or text, we confirm ETA', p: 'Your service manager or dispatcher sends the location and vehicle details. We confirm the truck and the arrival time right back.' },
+  { n: '04', h: 'One itemized invoice at month end', p: 'Every job listed with date, vehicle, route, and photos at pickup and drop. Your bookkeeper gets one document instead of thirty receipts.' },
+];
+
+const perks = ['Priority dispatch ahead of walk-in calls', 'Agreed account rates in writing', 'Monthly consolidated invoicing', 'Photo documentation on pickup and drop', 'Careful loading of customer vehicles', 'Direct line to the owner', '24/7 coverage, every day of the year', 'Storage and impound coordination'];
+
+
+const faqs = [
+  { q: 'Do you offer net 30?', a: 'Yes, for established accounts. New accounts start on card or invoice at time of service, and we move to net terms once we have a few months of history together.' },
+  { q: 'How do you handle non-consent tows on our property?', a: 'By the book. We confirm your signage and notice meet Alabama and City of Mobile requirements before the first removal, photograph the vehicle and its position, log the removal, and provide the records you need if the owner disputes it.' },
+  { q: 'Can we call after hours?', a: 'Yes. Account holders reach the same dispatch line around the clock, and after hours calls for account holders are handled at the rates we agreed on.' },
+  { q: 'Do you carry the required insurance for commercial work?', a: 'Yes. We carry commercial auto liability, on-hook coverage for vehicles in our care, and garage keepers coverage. Certificates of insurance are available on request for your file.' },
+  { q: 'How fast is priority dispatch?', a: 'Account calls go to the front of the queue. Inside the Mobile city limits that usually means the next available truck is yours. We give a real ETA on every call rather than a fixed promise we cannot keep on a bad traffic day.' },
+];
+
+const schema = [
+  {
+    '@type': 'Service',
+    '@id': `${site.url}/commercial-towing#service`,
+    name: 'Commercial Towing Accounts',
+    serviceType: 'Commercial Towing Accounts',
+    provider: { '@id': `${site.url}/#business` },
+    audience: { '@type': 'BusinessAudience', audienceType: 'Body shops, repair shops, dealerships, property managers, and fleet operators' },
+    areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
+    url: `${site.url}/commercial-towing`,
+  },
+  { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+<Base
+  title="Commercial Towing Accounts in Mobile, AL | Xpress Towing"
+  description="Priority towing for body shops, repair shops, dealerships, property managers, and fleets in Mobile, Alabama. Monthly invoicing, photo records, one direct line."
+  canonicalPath="/commercial-towing"
+  ogImage="/og/commercial-towing.jpg"
+  schema={schema}
+  breadcrumbs={crumbs}
+>
+  <section class="dark-tex bg-asphalt" transition:name="hero-commercial-towing">
+    <div class="container-site grid min-h-[45vh] items-center gap-12 py-14 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:py-20">
+      <div class="min-w-0" data-hero-in>
+      <Breadcrumbs items={crumbs} />
+      <Eyebrow class="mt-6">Commercial accounts</Eyebrow>
+      <h1 class="h1-inner mt-3 max-w-[16ch]">A towing partner your business can count on</h1>
+      <p class="mt-6 max-w-[52ch] text-lg text-bone-dim lg:text-xl">For shops and fleets that move vehicles every week. Agreed rates, priority response, one invoice a month.</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href={signup} class="btn btn-red btn-lg w-full sm:w-auto">Set up an account<ArrowRight class="size-6" /></a>
+        <a href={tel} class="btn btn-outline-red btn-lg w-full sm:w-auto"><Phone class="size-6" />Call {site.phoneDisplay}</a>
+      </div>
+      </div>
+      <div class="feature-media border border-steel-light">
+        <Picture src={shopImg} alt="Xpress flatbed parked at the open bays of a repair shop, ready for a dealer pickup" widths={[640, 960, 1200]} sizes="(min-width: 1024px) 40vw, 92vw" formats={['avif', 'webp']} quality={50} loading="eager" fetchpriority="high" class="aspect-[3/2] w-full object-cover" />
+      </div>
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="right" from="bg-asphalt" to="bg-bone" />
+  <section class="relative overflow-hidden bg-bone text-ink">
+    <GhostWord word="Accounts" class="text-ink" />
+    <div class="container-site section-pad relative">
+      <h2 class="max-w-[22ch] text-ink" data-reveal>Built for businesses that move vehicles every week</h2>
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger>
+        {audiences.map((a, i) => (
+          <Card variant="dark" class:list={['p-8 pt-12', i === 0 && 'md:col-span-2']}>
+            <a.icon class="size-7 text-red-tint" />
+            <h3 class="mt-4">{a.h}</h3>
+            <p class="mt-3 text-bone-dim">{a.p}</p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="left" from="bg-bone" to="bg-steel" line />
+  <section class="dark-tex bg-steel">
+    <div class="container-site section-pad">
+      <h2 data-reveal>Simple terms, no surprises</h2>
+      <ol class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4" data-reveal-stagger>
+        {steps.map((s) => (
+          <Card as="li" variant="step" class="p-8 pt-10">
+            <span class="step-ghost" aria-hidden="true">{s.n}</span>
+            <span class="font-display text-xl font-semibold text-red-tint tabular" aria-hidden="true">{s.n}</span>
+            <h3 class="relative mt-4">{s.h}</h3>
+            <p class="mt-3 text-bone-dim">{s.p}</p>
+          </Card>
+        ))}
+      </ol>
+      <p class="mt-12 max-w-[60ch] text-bone-dim">New accounts start on card or invoice at time of service. Most move to net 30 within a quarter.</p>
+    </div>
+  </section>
+
+  <SectionDivider variant="hazard" from="bg-steel" to="bg-asphalt" />
+  <section class="dark-tex bg-asphalt">
+    <div class="container-site section-pad grid gap-12 lg:grid-cols-[7fr_5fr] lg:items-start lg:gap-16">
+      <div>
+        <h2 data-reveal>What comes with an Xpress account</h2>
+        <ul class="mt-8 grid gap-3 text-bone sm:grid-cols-2 sm:gap-x-8" data-reveal-stagger>
+          {perks.map((p) => <li class="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-2.5 before:bg-red before:content-['']">{p}</li>)}
+        </ul>
+      </div>
+      <Card variant="dark" class="p-8 pt-12 lg:p-10 lg:pt-14" data-reveal>
+        <h3>Owner operated</h3>
+        <p class="mt-4 text-bone-dim">The person who answers your call drives the truck and signs the invoice. No call center, no subcontractor in a truck you have never seen. Rates, rush pickups, and problems get decided on the spot by someone with a stake in keeping your business.</p>
+        <p class="mt-6 font-display text-xl font-semibold uppercase tracking-wide text-red-tint"><span data-placeholder="owner">Owner name</span>, Xpress Towing &amp; Recovery</p>
+      </Card>
+    </div>
+  </section>
+
+  <SectionDivider variant="slant" direction="right" from="bg-asphalt" to="bg-steel" line />
+  <section class="dark-tex bg-steel">
+    <div class="container-site section-pad grid gap-10 lg:grid-cols-[4fr_8fr]">
+      <h2 data-reveal>Account questions</h2>
+      <div class="rounded-card bg-bone px-6 text-ink lg:px-8" data-reveal>{faqs.map((f) => <FaqItem question={f.q}><p>{f.a}</p></FaqItem>)}</div>
+    </div>
+  </section>
+
+  <CtaBand heading="Ready to set up your account?" secondary={{ label: 'Set up an account', href: signup }} />
+</Base>

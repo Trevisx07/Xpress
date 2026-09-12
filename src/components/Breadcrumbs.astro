@@ -1,0 +1,17 @@
+---
+import type { Breadcrumb } from '@/lib/schema';
+interface Props { items: Breadcrumb[]; class?: string }
+const { items, class: className } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class={className}>
+  <ol class="flex flex-wrap items-center gap-x-2 text-sm text-concrete">
+    {items.map((item, i) => (
+      <li class="flex items-center gap-x-2">
+        {i > 0 && <span aria-hidden="true" class="text-steel-light">/</span>}
+        {i < items.length - 1
+          ? <a href={item.path} class="inline-flex min-h-11 items-center hover:text-bone">{item.name}</a>
+          : <span aria-current="page" class="inline-flex min-h-11 items-center text-bone-dim">{item.name}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>

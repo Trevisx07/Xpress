@@ -1,0 +1,12 @@
+---
+import ChevronDown from '@/components/icons/ChevronDown.astro';
+interface Props { question: string }
+const { question } = Astro.props;
+---
+<details class="group border-t border-ink/10 last:border-b">
+  <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 font-display text-xl font-semibold uppercase tracking-wide text-ink hover:text-red-deep [&::-webkit-details-marker]:hidden">
+    {question}
+    <ChevronDown class="size-6 shrink-0 text-red-deep transition-transform duration-150 group-open:rotate-180" />
+  </summary>
+  <div class="faq-body"><div class="min-h-0 overflow-hidden"><div class="pb-5 text-ink-soft"><slot /></div></div></div>
+</details>

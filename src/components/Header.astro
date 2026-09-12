@@ -1,0 +1,83 @@
+---
+import { site, nav } from '@/config/site';
+import Logo from '@/components/Logo.astro';
+import Phone from '@/components/icons/Phone.astro';
+import Menu from '@/components/icons/Menu.astro';
+import Close from '@/components/icons/Close.astro';
+
+const current = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isCurrent = (href: string) => (href === '/' ? current === '/' : current === href || current.startsWith(href + '/'));
+const tel = `tel:${site.phone}`;
+---
+<header id="site-header" transition:persist transition:name="header" class="site-header sticky top-0 z-50 bg-asphalt border-b border-transparent data-[scrolled]:border-steel-light data-[scrolled]:shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
+  <div class="container-site relative z-[70] flex h-[var(--header-h)] items-center justify-between gap-4">
+    <a href="/" class="flex items-center min-h-11 shrink-0" aria-label={`${site.name} home`}>
+      <Logo width={128} class="h-12 w-auto lg:h-16" />
+    </a>
+
+    <nav aria-label="Primary" class="hidden lg:block">
+      <ul class="flex items-center gap-10">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              class="link-wipe nav-link relative inline-flex min-h-11 items-center font-display text-[1.05rem] font-semibold uppercase tracking-[0.04em] text-bone-dim hover:text-bone aria-[current=page]:text-bone"
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={tel} class="btn btn-red hidden min-h-[52px] px-6 text-xl lg:inline-flex">
+        <Phone class="size-5" />
+        Call {site.phoneDisplay}
+      </a>
+      <a href={tel} aria-label="Call Xpress Towing now" class="lg:hidden inline-flex size-12 items-center justify-center rounded-full bg-red text-white hover:bg-red-deep">
+        <Phone class="size-6" />
+      </a>
+      <button
+        type="button"
+        id="menu-open"
+        class="lg:hidden inline-flex size-12 items-center justify-center rounded-btn text-bone hover:text-red-tint"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        hidden
+      >
+        <Menu class="size-7" />
+      </button>
+      <a href="#mobile-menu" id="menu-open-fallback" class="lg:hidden inline-flex size-12 items-center justify-center rounded-btn text-bone hover:text-red-tint" aria-label="Open menu">
+        <Menu class="size-7" />
+      </a>
+      <a href="#site-header" id="menu-close" class="menu-close lg:hidden inline-flex size-12 items-center justify-center rounded-btn text-bone hover:text-red-tint" aria-label="Close menu">
+        <Close class="size-7" />
+      </a>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="dark-tex lg:hidden fixed inset-0 z-[60] h-dvh bg-asphalt flex-col target:flex data-[open]:flex hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Site menu"
+  >
+    <nav aria-label="Mobile" class="container-site flex-1 flex flex-col justify-center gap-3 pb-8 pt-[var(--header-h)]">
+      {nav.map((item, i) => (
+        <a
+          href={item.href}
+          aria-current={isCurrent(item.href) ? 'page' : undefined}
+          class="menu-link flex items-baseline gap-4 py-1 font-display text-[clamp(2.5rem,10vw,4rem)] leading-[1.05] font-bold uppercase tracking-tight text-bone hover:text-red-tint aria-[current=page]:text-red-tint"
+          style={`--i:${i}`}
+        ><span class="text-2xl font-semibold text-red-tint tabular" aria-hidden="true">0{i + 1}</span>{item.label}</a>
+      ))}
+      <a href={tel} class="menu-link btn btn-red btn-lg mt-8 self-start" style="--i:4">
+        <Phone class="size-6" />
+        Call {site.phoneDisplay}
+      </a>
+      <p class="menu-link mt-6 text-concrete" style="--i:5">Open 24 hours, 7 days a week. Mobile, AL and the Gulf Coast.</p>
+    </nav>
+  </div>
+</header>

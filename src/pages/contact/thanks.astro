@@ -1,0 +1,20 @@
+---
+import Base from '@/layouts/Base.astro';
+import { site } from '@/config/site';
+import Phone from '@/components/icons/Phone.astro';
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+---
+<Base title="Request Received | Xpress Towing & Recovery" description="Your request reached Xpress Towing & Recovery dispatch in Mobile, Alabama. A dispatcher will call you shortly. Need a truck right now? Call us directly." canonicalPath="/contact/thanks" noindex>
+  <section class="section-pad">
+    <div class="container-site">
+      <Eyebrow>Request received</Eyebrow>
+      <h1 class="h1-inner mt-3 max-w-[16ch]">Got it. We will call you shortly.</h1>
+      <p class="mt-6 max-w-[52ch] text-lg text-bone-dim">A dispatcher reads every request as it comes in. If you need a truck right now, skip the wait and call.</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href={`tel:${site.phone}`} class="btn btn-red btn-lg w-full sm:w-auto"><Phone class="size-6" />Call {site.phoneDisplay}</a>
+        <a href="/" class="btn btn-outline btn-lg w-full sm:w-auto">Back to home<ArrowRight class="size-6" /></a>
+      </div>
+    </div>
+  </section>
+</Base>

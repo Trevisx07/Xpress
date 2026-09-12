@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import EyebrowMark from '@/components/icons/EyebrowMark.astro';
+interface Props extends HTMLAttributes<'p'> { tone?: 'red' | 'light' | 'ink'; size?: 'base' | 'lg' }
+const { tone = 'red', class: className, size = 'lg', ...rest } = Astro.props;
+const text = { red: 'text-red-tint', light: 'text-ink-soft', ink: 'text-ink' }[tone];
+const mark = { red: 'text-red-tint', light: 'text-red-deep', ink: 'text-red-deep' }[tone];
+---
+<p class:list={['eyebrow font-display font-semibold uppercase tracking-widest', size === 'lg' ? 'text-lg' : 'text-base', text, className]} {...rest}>
+  <EyebrowMark class={mark} /><slot />
+</p>
