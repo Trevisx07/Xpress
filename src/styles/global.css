@@ -528,12 +528,12 @@
 .card-dark::after {
   content: '';
   position: absolute;
-  top: 12px;
-  left: 12px;
+  right: 12px;
+  bottom: 12px;
   width: 24px;
   height: 24px;
-  border-top: 2px solid var(--color-chrome);
-  border-left: 2px solid var(--color-chrome);
+  border-bottom: 2px solid var(--color-chrome);
+  border-right: 2px solid var(--color-chrome);
   pointer-events: none;
 }
 .card-stat { background: #fff; border-color: color-mix(in srgb, var(--color-ink) 10%, transparent); color: var(--color-ink); }

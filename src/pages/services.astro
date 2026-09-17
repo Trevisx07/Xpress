@@ -108,7 +108,7 @@ const schema = [
                 <Eyebrow tone="light" size="base">{s.category}</Eyebrow>
                 <div class="mt-2 flex items-center gap-3"><Icon class="size-7 shrink-0 text-red-deep" /><h2 class="text-ink">{s.name}</h2></div>
                 <div class="mt-3 text-ink-soft">{s.long.map((p) => <p>{p}</p>)}</div>
-                <Card variant="dark" class="mt-4 p-4 pt-8">
+                <Card variant="dark" class="mt-4 p-5 pb-9">
                   <ul class="grid gap-x-6 gap-y-1.5 text-sm text-bone sm:grid-cols-2">
                     {s.bullets.slice(0, 4).map((b) => <li class="relative pl-5 before:absolute before:left-0 before:top-[0.5em] before:size-2 before:bg-red before:content-['']">{b}</li>)}
                   </ul>
@@ -131,7 +131,7 @@ const schema = [
       <p class="mt-4 text-lg text-bone-dim">Three parts, all explained on the phone. The total is confirmed with you before dispatch.</p>
       <div class="mt-8 grid gap-5 md:grid-cols-3" data-reveal-stagger>
         {pricing.map((c, i) => (
-          <Card variant="dark" class="p-6 pt-10">
+          <Card variant="dark" class="p-6 pb-10">
             <span class="font-display text-lg font-semibold text-red-tint tabular" aria-hidden="true">0{i + 1}</span>
             <h3 class="mt-1">{c.h}</h3>
             <p class="mt-2 text-sm text-bone-dim">{c.p}</p>
